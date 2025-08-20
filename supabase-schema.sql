@@ -8,6 +8,8 @@ CREATE TABLE photos (
   view_count INTEGER DEFAULT 0,
   status BOOLEAN DEFAULT TRUE, -- true: görüntülenebilir, false: görüntülenemez
   user_id UUID, -- gelecekte kullanıcı sistemi için
+  image_data TEXT, -- Base64 encoded image data
+  mime_type TEXT, -- MIME type (image/jpeg, image/png, etc.)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -45,7 +47,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER update_photos_updated_at 
-  BEFORE UPDATE ON photos 
-  FOR EACH ROW 
+CREATE TRIGGER update_photos_updated_at
+  BEFORE UPDATE ON photos
+  FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();

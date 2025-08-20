@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { unlink } from 'fs/promises'
-import { join } from 'path'
 import { supabase } from '@/lib/supabase'
-
-// Fotoğrafların saklanacağı dizin
-const UPLOAD_DIR = join(process.cwd(), 'uploads')
 
 export async function DELETE(
   request: NextRequest,
@@ -25,15 +20,6 @@ export async function DELETE(
         { message: 'Fotoğraf bulunamadı' },
         { status: 404 }
       )
-    }
-    
-    // Fotoğraf dosyasını sil
-    const photoFilePath = join(UPLOAD_DIR, photoData.filename)
-    
-    try {
-      await unlink(photoFilePath)
-    } catch (error) {
-      console.error('Error deleting photo file:', error)
     }
     
     // Supabase'den fotoğraf kaydını sil

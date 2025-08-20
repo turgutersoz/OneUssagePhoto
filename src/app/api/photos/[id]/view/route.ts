@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { readFile, unlink } from 'fs/promises'
-import { join } from 'path'
 import { supabase } from '@/lib/supabase'
-
-// Fotoğrafların saklanacağı dizin
-const UPLOAD_DIR = join(process.cwd(), 'uploads')
 
 export async function GET(
   request: NextRequest,
@@ -35,19 +30,6 @@ export async function GET(
       )
     }
 
-    // Fotoğraf dosyasını oku
-    const photoFilePath = join(UPLOAD_DIR, photoData.filename)
-    let photoBuffer
-    
-    try {
-      photoBuffer = await readFile(photoFilePath)
-    } catch (error) {
-      return NextResponse.json(
-        { message: 'Fotoğraf dosyası bulunamadı' },
-        { status: 404 }
-      )
-    }
-
     // Görüntüleme sayısını artır ve status'u false yap
     const { error: updateError } = await supabase
       .from('photos')
@@ -70,8 +52,8 @@ export async function GET(
         originalName: photoData.original_name,
         size: photoData.size,
         uploadedAt: photoData.uploaded_at,
-        imageData: photoBuffer.toString('base64'),
-        mimeType: getMimeType(photoData.filename)
+        imageData: photoData.image_data, // Base64 data
+        mimeType: photoData.mime_type || 'image/jpeg'
       }
     })
     
@@ -81,23 +63,5 @@ export async function GET(
       { message: 'Fotoğraf görüntülenirken bir hata oluştu' },
       { status: 500 }
     )
-  }
-}
-
-// Dosya uzantısına göre MIME türünü belirle
-function getMimeType(filename: string): string {
-  const ext = filename.split('.').pop()?.toLowerCase()
-  switch (ext) {
-    case 'jpg':
-    case 'jpeg':
-      return 'image/jpeg'
-    case 'png':
-      return 'image/png'
-    case 'gif':
-      return 'image/gif'
-    case 'webp':
-      return 'image/webp'
-    default:
-      return 'image/jpeg'
   }
 }

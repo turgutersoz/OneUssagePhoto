@@ -1,9 +1,10 @@
 {
-  "/api/photos/[id]/route": "app/api/photos/[id]/route.js",
-  "/api/photos/[id]/view/route": "app/api/photos/[id]/view/route.js",
-  "/api/photos/route": "app/api/photos/route.js",
-  "/api/upload/route": "app/api/upload/route.js",
   "/_not-found/page": "app/_not-found/page.js",
+  "/api/photos/[id]/route": "app/api/photos/[id]/route.js",
+  "/api/photos/route": "app/api/photos/route.js",
+  "/api/photos/[id]/view/route": "app/api/photos/[id]/view/route.js",
+  "/api/upload/route": "app/api/upload/route.js",
   "/page": "app/page.js",
+  "/admin/page": "app/admin/page.js",
   "/photo/[id]/page": "app/photo/[id]/page.js"
 }

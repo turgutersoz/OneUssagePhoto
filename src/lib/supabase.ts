@@ -5,7 +5,6 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-// Fotoğraf tablosu için tip tanımları
 export interface Photo {
   id: string
   filename: string
@@ -15,6 +14,8 @@ export interface Photo {
   view_count: number
   status: boolean // true: görüntülenebilir, false: görüntülenemez
   user_id?: string
+  image_data?: string // Base64 encoded image data
+  mime_type?: string // MIME type
 }
 
 export interface PhotoUpload {
@@ -23,4 +24,6 @@ export interface PhotoUpload {
   size: number
   status: boolean
   user_id?: string
+  image_data?: string
+  mime_type?: string
 }
