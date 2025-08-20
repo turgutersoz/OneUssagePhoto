@@ -15,3 +15,12 @@
 
 [functions]
   directory = ".netlify/functions"
+
+[functions."api/*"]
+  timeout = 30
+
+[functions."api/photos/*"]
+  timeout = 30
+
+[functions."api/upload"]
+  timeout = 30

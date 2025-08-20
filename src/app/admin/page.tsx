@@ -17,10 +17,47 @@ export default function AdminPage() {
   
   const { showSuccess, showError, showInfo } = useToastContext()
 
+  // Session persistence için localStorage kullan
+  useEffect(() => {
+    const savedAuth = localStorage.getItem('adminAuth')
+    if (savedAuth) {
+      try {
+        const authData = JSON.parse(savedAuth)
+        if (authData.username === 'admin' && authData.timestamp) {
+          // 24 saat geçerli session
+          const isExpired = Date.now() - authData.timestamp > 24 * 60 * 60 * 1000
+          if (!isExpired) {
+            setIsAuthenticated(true)
+            setUsername(authData.username)
+            fetchPhotos()
+          } else {
+            localStorage.removeItem('adminAuth')
+          }
+        }
+      } catch (error) {
+        localStorage.removeItem('adminAuth')
+      }
+    }
+  }, [])
+
+  // Session'ı kaydet
+  const saveSession = (username: string) => {
+    localStorage.setItem('adminAuth', JSON.stringify({
+      username,
+      timestamp: Date.now()
+    }))
+  }
+
+  // Session'ı temizle
+  const clearSession = () => {
+    localStorage.removeItem('adminAuth')
+  }
+
   // Basit admin kimlik doğrulama (gerçek uygulamada daha güvenli olmalı)
   const handleLogin = () => {
     if (username === 'admin' && password === 'admin123') {
       setIsAuthenticated(true)
+      saveSession(username)
       showSuccess('Giriş Başarılı!', 'Admin paneline hoş geldiniz.')
       fetchPhotos()
     } else {
@@ -33,8 +70,20 @@ export default function AdminPage() {
     setUsername('')
     setPassword('')
     setPhotos([])
+    clearSession()
     showInfo('Çıkış Yapıldı', 'Güvenli çıkış yapıldı.')
   }
+
+  // Otomatik yenileme için interval
+  useEffect(() => {
+    if (isAuthenticated) {
+      const interval = setInterval(() => {
+        fetchPhotos()
+      }, 30000) // 30 saniyede bir yenile
+
+      return () => clearInterval(interval)
+    }
+  }, [isAuthenticated])
 
   const fetchPhotos = async () => {
     setLoading(true)
@@ -207,6 +256,9 @@ export default function AdminPage() {
             </h1>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               Tüm fotoğrafları yönetin ve izleyin
+            </p>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              Otomatik yenileme: 30 saniyede bir
             </p>
           </div>
           
