@@ -1,9 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react'
 import PhotoUploader from '@/components/PhotoUploader'
+import { useMobileSecurity } from '@/hooks/useMobileSecurity'
 
 export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0)
+  
+  // Mobil güvenlik hook'unu kullan
+  useMobileSecurity()
   
   const handlePhotoUploaded = () => {
     setRefreshKey(prev => prev + 1)

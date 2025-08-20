@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
+import { useMobileSecurity } from '@/hooks/useMobileSecurity'
 
 interface PhotoData {
   id: string
@@ -19,6 +20,9 @@ export default function PhotoPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [hasBeenViewed, setHasBeenViewed] = useState(false)
+
+  // Mobil güvenlik hook'unu kullan
+  useMobileSecurity()
 
   // Güvenlik önlemleri
   useEffect(() => {

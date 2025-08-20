@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useToastContext } from '@/components/ToastProvider'
 import ConfirmModal from '@/components/ConfirmModal'
 import { Photo } from '@/lib/supabase'
+import { useMobileSecurity } from '@/hooks/useMobileSecurity'
 
 export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -16,6 +17,9 @@ export default function AdminPage() {
   })
   
   const { showSuccess, showError, showInfo } = useToastContext()
+
+  // Mobil güvenlik hook'unu kullan
+  useMobileSecurity()
 
   // Güvenlik önlemleri
   useEffect(() => {

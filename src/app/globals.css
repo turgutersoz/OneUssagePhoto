@@ -69,3 +69,73 @@ button {
   -o-user-drag: none;
   user-drag: none;
 }
+
+/* Mobil cihazlar için özel güvenlik stilleri */
+@media (max-width: 768px), (hover: none), (pointer: coarse) {
+  * {
+    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+  
+  /* Input'larda text seçimine izin ver */
+  input, textarea, select {
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+  }
+  
+  /* Resimlerde ekstra güvenlik */
+  img, video, canvas {
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -webkit-user-drag: none !important;
+    pointer-events: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+  
+  /* Long press engelle */
+  * {
+    -webkit-touch-callout: none !important;
+    -webkit-user-callout: none !important;
+  }
+  
+  /* Screenshot detection için watermark */
+  body::after {
+    content: "© 2024 - Güvenli İçerik";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.001;
+    font-size: 1px;
+    color: transparent;
+    background: transparent;
+  }
+}
+
+/* iOS Safari için özel ayarlar */
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+  body {
+    -webkit-user-select: none !important;
+    -webkit-touch-callout: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+}
+
+/* Android için özel ayarlar */
+@media screen and (orientation: portrait), screen and (orientation: landscape) {
+  html {
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+  }
+}
