@@ -43,6 +43,12 @@ export default function RootLayout({
         <meta name="referrer" content="no-referrer" />
         <meta httpEquiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; img-src 'self' data: https:; media-src 'self' data:;" />
         
+        {/* Mobil ekran görüntüsü engelleme */}
+        <meta name="screen-capture" content="disabled" />
+        <meta name="screenshot" content="disabled" />
+        <meta name="save-image" content="disabled" />
+        <meta name="disable-screenshot" content="true" />
+        
         {/* CSS ile ek mobil güvenlik */}
         <style dangerouslySetInnerHTML={{
           __html: `
@@ -84,6 +90,23 @@ export default function RootLayout({
                 z-index: -1;
                 background: transparent;
                 pointer-events: none;
+              }
+              
+              /* Screenshot tespit edildiğinde gizle */
+              .mobile-screenshot-active img,
+              .mobile-screenshot-active video,
+              .mobile-screenshot-active canvas {
+                filter: blur(20px) brightness(0) !important;
+                opacity: 0 !important;
+                transform: scale(0.1) !important;
+                visibility: hidden !important;
+              }
+              
+              .mobile-screenshot-active .photo-container,
+              .mobile-screenshot-active .image-wrapper {
+                filter: blur(20px) brightness(0) !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
               }
             }
           `

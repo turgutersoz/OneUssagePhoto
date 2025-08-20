@@ -139,3 +139,61 @@ button {
     user-select: none !important;
   }
 }
+
+/* Windows için özel güvenlik stilleri */
+@media screen and (min-width: 769px) {
+  /* Windows'ta screenshot alındığında resimleri gizle */
+  .photo-container.screenshot-detected img,
+  .image-wrapper.screenshot-detected {
+    filter: blur(20px) brightness(0) !important;
+    opacity: 0 !important;
+    transform: scale(0.1) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Windows'ta screenshot alındığında container'ları gizle */
+  .photo-container.screenshot-detected {
+    filter: blur(20px) brightness(0) !important;
+    opacity: 0 !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  /* Screenshot uyarısı */
+  .screenshot-warning {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    background: rgba(255, 0, 0, 0.95) !important;
+    color: white !important;
+    padding: 20px !important;
+    border-radius: 10px !important;
+    z-index: 9999 !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5) !important;
+    border: 2px solid white !important;
+  }
+  
+  /* Windows'ta print screen engelleme */
+  @media print {
+    * {
+      visibility: hidden !important;
+    }
+    
+    body::before {
+      content: "Bu içerik Windows'ta yazdırılamaz veya kaydedilemez!" !important;
+      visibility: visible !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      font-size: 24px !important;
+      color: red !important;
+      background: white !important;
+      padding: 20px !important;
+      border: 2px solid red !important;
+      z-index: 9999 !important;
+    }
+  }
+}

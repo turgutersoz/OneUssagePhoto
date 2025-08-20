@@ -2,12 +2,16 @@
 import { useState, useEffect } from 'react'
 import PhotoUploader from '@/components/PhotoUploader'
 import { useMobileSecurity } from '@/hooks/useMobileSecurity'
+import { useWindowsSecurity } from '@/hooks/useWindowsSecurity'
 
 export default function Home() {
   const [refreshKey, setRefreshKey] = useState(0)
   
   // Mobil güvenlik hook'unu kullan
   useMobileSecurity()
+  
+  // Windows güvenlik hook'unu kullan
+  useWindowsSecurity()
   
   const handlePhotoUploaded = () => {
     setRefreshKey(prev => prev + 1)

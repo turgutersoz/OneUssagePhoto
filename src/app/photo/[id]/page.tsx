@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
 import { useMobileSecurity } from '@/hooks/useMobileSecurity'
+import { useWindowsSecurity } from '@/hooks/useWindowsSecurity'
 
 interface PhotoData {
   id: string
@@ -23,6 +24,9 @@ export default function PhotoPage() {
 
   // Mobil güvenlik hook'unu kullan
   useMobileSecurity()
+  
+  // Windows güvenlik hook'unu kullan
+  useWindowsSecurity()
 
   // Güvenlik önlemleri
   useEffect(() => {
@@ -185,11 +189,11 @@ export default function PhotoPage() {
             
             <div className="p-6">
               {photo.imageData ? (
-                <div className="text-center">
+                <div className="text-center photo-container">
                   <img
                     src={`data:${photo.mimeType};base64,${photo.imageData}`}
                     alt={photo.originalName}
-                    className="max-w-full h-auto mx-auto rounded-lg shadow-lg"
+                    className="max-w-full h-auto mx-auto rounded-lg shadow-lg image-wrapper"
                     style={{ maxHeight: '70vh' }}
                     draggable="false"
                     onContextMenu={(e) => e.preventDefault()}
