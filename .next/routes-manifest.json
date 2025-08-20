@@ -28,6 +28,14 @@
       "namedRegex": "^/api/photos/(?<nxtPid>[^/]+?)(?:/)?$"
     },
     {
+      "page": "/api/photos/[id]/toggle-status",
+      "regex": "^/api/photos/([^/]+?)/toggle\\-status(?:/)?$",
+      "routeKeys": {
+        "nxtPid": "nxtPid"
+      },
+      "namedRegex": "^/api/photos/(?<nxtPid>[^/]+?)/toggle\\-status(?:/)?$"
+    },
+    {
       "page": "/api/photos/[id]/view",
       "regex": "^/api/photos/([^/]+?)/view(?:/)?$",
       "routeKeys": {

@@ -90,6 +90,36 @@ export default function AdminPage() {
     closeDeleteModal()
   }
 
+  const togglePhotoStatus = async (photoId: string, currentStatus: boolean) => {
+    try {
+      const response = await fetch(`/api/photos/${photoId}/toggle-status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: !currentStatus }),
+      })
+      
+      if (response.ok) {
+        setPhotos(photos.map(photo => 
+          photo.id === photoId 
+            ? { ...photo, status: !currentStatus }
+            : photo
+        ))
+        showSuccess(
+          currentStatus ? 'Fotoğraf Pasif Yapıldı!' : 'Fotoğraf Aktif Yapıldı!',
+          currentStatus 
+            ? 'Fotoğraf artık görüntülenemez.' 
+            : 'Fotoğraf tekrar görüntülenebilir.'
+        )
+      } else {
+        showError('Durum Güncelleme Hatası', 'Fotoğraf durumu güncellenirken hata oluştu!')
+      }
+    } catch (error) {
+      showError('Bağlantı Hatası', 'Fotoğraf durumu güncellenirken hata oluştu!')
+    }
+  }
+
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return '0 Bytes'
     const k = 1024
@@ -127,7 +157,7 @@ export default function AdminPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder="admin"
+                placeholder="Kullanıcı adınızı girin"
                 required
               />
             </div>
@@ -142,7 +172,7 @@ export default function AdminPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                placeholder="admin123"
+                placeholder="Şifrenizi girin"
                 required
               />
             </div>
@@ -159,14 +189,6 @@ export default function AdminPage() {
             <a href="/" className="text-blue-600 hover:text-blue-700 text-sm">
               ← Ana Sayfaya Dön
             </a>
-          </div>
-          
-          <div className="mt-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
-            <p className="text-xs text-blue-800 dark:text-blue-200 text-center">
-              <strong>Test Bilgileri:</strong><br />
-              Kullanıcı: admin<br />
-              Şifre: admin123
-            </p>
           </div>
         </div>
       </div>
@@ -275,6 +297,19 @@ export default function AdminPage() {
                     </div>
                     
                     <div className="flex items-center space-x-2 ml-4">
+                      {/* Durum Değiştirme Butonu */}
+                      <button
+                        onClick={() => togglePhotoStatus(photo.id, photo.status)}
+                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-colors ${
+                          photo.status
+                            ? 'bg-yellow-600 hover:bg-yellow-700 text-white'
+                            : 'bg-green-600 hover:bg-green-700 text-white'
+                        }`}
+                      >
+                        {photo.status ? 'Pasif Yap' : 'Aktif Yap'}
+                      </button>
+                      
+                      {/* Silme Butonu */}
                       <button
                         onClick={() => openDeleteModal(photo.id)}
                         className="px-3 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"

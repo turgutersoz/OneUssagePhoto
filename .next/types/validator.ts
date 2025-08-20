@@ -71,6 +71,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/photos/[id]">
 }
 
+// Validate ..\..\src\app\api\photos\[id]\toggle-status\route.ts
+{
+  const handler = {} as typeof import("..\\..\\src\\app\\api\\photos\\[id]\\toggle-status\\route.js")
+  handler satisfies RouteHandlerConfig<"/api/photos/[id]/toggle-status">
+}
+
 // Validate ..\..\src\app\api\photos\[id]\view\route.ts
 {
   const handler = {} as typeof import("..\\..\\src\\app\\api\\photos\\[id]\\view\\route.js")
