@@ -1,7 +1,9 @@
 {
+  "/api/photos/[id]/route": "app/api/photos/[id]/route.js",
+  "/api/photos/[id]/view/route": "app/api/photos/[id]/view/route.js",
   "/api/photos/route": "app/api/photos/route.js",
   "/api/upload/route": "app/api/upload/route.js",
-  "/api/photos/[id]/view/route": "app/api/photos/[id]/view/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/photo/[id]/page": "app/photo/[id]/page.js"
 }

@@ -1,0 +1,9 @@
+{
+  "/api/photos/[id]/route": "/api/photos/[id]",
+  "/api/photos/[id]/view/route": "/api/photos/[id]/view",
+  "/api/photos/route": "/api/photos",
+  "/api/upload/route": "/api/upload",
+  "/_not-found/page": "/_not-found",
+  "/page": "/",
+  "/photo/[id]/page": "/photo/[id]"
+}

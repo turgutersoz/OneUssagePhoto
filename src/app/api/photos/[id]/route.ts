@@ -8,10 +8,10 @@ const UPLOAD_DIR = join(process.cwd(), 'uploads')
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = params
+    const { id } = await params
     
     // Supabase'den fotoğraf bilgilerini çek
     const { data: photoData, error: fetchError } = await supabase
