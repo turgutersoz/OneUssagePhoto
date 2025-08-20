@@ -17,6 +17,70 @@ export default function AdminPage() {
   
   const { showSuccess, showError, showInfo } = useToastContext()
 
+  // Güvenlik önlemleri
+  useEffect(() => {
+    // Sağ tık menüsünü engelle
+    const preventContextMenu = (e: MouseEvent) => {
+      e.preventDefault()
+      return false
+    }
+
+    // Klavye kısayollarını engelle
+    const preventKeyboardShortcuts = (e: KeyboardEvent) => {
+      // Ctrl+S, Ctrl+Shift+S, F12, Ctrl+Shift+I, Ctrl+U
+      if (
+        (e.ctrlKey && e.key === 's') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'S') ||
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.key === 'u')
+      ) {
+        e.preventDefault()
+        return false
+      }
+    }
+
+    // Drag & Drop engelle
+    const preventDrag = (e: DragEvent) => {
+      e.preventDefault()
+      return false
+    }
+
+    // Copy engelle
+    const preventCopy = (e: ClipboardEvent) => {
+      e.preventDefault()
+      return false
+    }
+
+    // Select engelle
+    const preventSelect = (e: Event) => {
+      e.preventDefault()
+      return false
+    }
+
+    // Event listener'ları ekle
+    document.addEventListener('contextmenu', preventContextMenu)
+    document.addEventListener('keydown', preventKeyboardShortcuts)
+    document.addEventListener('dragstart', preventDrag)
+    document.addEventListener('copy', preventCopy)
+    document.addEventListener('selectstart', preventSelect)
+
+    // CSS ile ek güvenlik
+    document.body.style.userSelect = 'none'
+    document.body.style.webkitUserSelect = 'none'
+    ;(document.body.style as any).msUserSelect = 'none'
+    ;(document.body.style as any).mozUserSelect = 'none'
+
+    // Cleanup
+    return () => {
+      document.removeEventListener('contextmenu', preventContextMenu)
+      document.removeEventListener('keydown', preventKeyboardShortcuts)
+      document.removeEventListener('dragstart', preventDrag)
+      document.removeEventListener('copy', preventCopy)
+      document.removeEventListener('selectstart', preventSelect)
+    }
+  }, [])
+
   // Session persistence için localStorage kullan
   useEffect(() => {
     const savedAuth = localStorage.getItem('adminAuth')

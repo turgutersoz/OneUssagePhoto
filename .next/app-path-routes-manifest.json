@@ -1,10 +1,10 @@
 {
   "/_not-found/page": "/_not-found",
-  "/api/photos/[id]/toggle-status/route": "/api/photos/[id]/toggle-status",
   "/api/photos/[id]/route": "/api/photos/[id]",
+  "/api/photos/[id]/toggle-status/route": "/api/photos/[id]/toggle-status",
   "/api/photos/[id]/view/route": "/api/photos/[id]/view",
-  "/api/photos/route": "/api/photos",
   "/api/upload/route": "/api/upload",
+  "/api/photos/route": "/api/photos",
   "/admin/page": "/admin",
   "/page": "/",
   "/photo/[id]/page": "/photo/[id]"
