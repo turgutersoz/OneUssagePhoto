@@ -21,7 +21,7 @@ export default function PhotoPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [hasBeenViewed, setHasBeenViewed] = useState(false)
-  const [countdown, setCountdown] = useState(10)
+  const [countdown, setCountdown] = useState(5)
   const [showCountdown, setShowCountdown] = useState(false)
 
   // Mobil güvenlik hook'unu kullan
@@ -237,22 +237,43 @@ export default function PhotoPage() {
                          <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
                            ⏰ {countdown} Saniye
                          </div>
-                         <div className="w-full bg-blue-200 dark:bg-blue-700 rounded-full h-2">
-                           <div 
-                             className="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-linear"
-                             style={{ width: `${(countdown / 10) * 100}%` }}
-                           ></div>
-                         </div>
-                         <p className="text-blue-600 dark:text-blue-400 text-sm mt-2">
-                           Sayfa otomatik olarak kapanacak
-                         </p>
+                                                   <div className="w-full bg-blue-200 dark:bg-blue-700 rounded-full h-2">
+                            <div 
+                              className="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-linear"
+                              style={{ width: `${(countdown / 5) * 100}%` }}
+                            ></div>
+                          </div>
+                                                   <p className="text-blue-600 dark:text-blue-400 text-sm mt-2">
+                            Sayfa 5 saniye sonra otomatik olarak kapanacak
+                          </p>
                        </div>
                      </div>
                    )}
                    
-                   <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
-                     Bu fotoğraf bir kez görüntülendi ve artık erişilemez.
-                   </p>
+                                       {/* Fotoğraf Altı Timecounter */}
+                    <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg border border-gray-200 dark:border-gray-600">
+                      <div className="text-center">
+                        <div className="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                          ⏱️ Kalan Süre
+                        </div>
+                        <div className="text-3xl font-bold text-red-600 dark:text-red-400 mb-2">
+                          {countdown}
+                        </div>
+                        <div className="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-3">
+                          <div 
+                            className="bg-red-500 h-3 rounded-full transition-all duration-1000 ease-linear"
+                            style={{ width: `${(countdown / 5) * 100}%` }}
+                          ></div>
+                        </div>
+                        <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
+                          Saniye sonra sayfa kapanacak
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
+                      Bu fotoğraf bir kez görüntülendi ve artık erişilemez.
+                    </p>
                  </div>
                ) : (
                  <div className="text-center">
