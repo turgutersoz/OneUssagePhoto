@@ -21,6 +21,8 @@ export default function PhotoPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [hasBeenViewed, setHasBeenViewed] = useState(false)
+  const [countdown, setCountdown] = useState(10)
+  const [showCountdown, setShowCountdown] = useState(false)
 
   // Mobil güvenlik hook'unu kullan
   useMobileSecurity()
@@ -98,6 +100,31 @@ export default function PhotoPage() {
     }
   }, [params.id])
 
+  // Geri sayım useEffect'i
+  useEffect(() => {
+    if (showCountdown && countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer)
+            // 10 saniye sonra sayfayı kapat
+            setTimeout(() => {
+              try {
+                window.close()
+              } catch (e) {
+                window.location.href = '/'
+              }
+            }, 1000)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+
+      return () => clearInterval(timer)
+    }
+  }, [showCountdown, countdown])
+
   const fetchPhoto = async (id: string) => {
     try {
       const response = await fetch(`/api/photos/${id}/view`)
@@ -105,6 +132,8 @@ export default function PhotoPage() {
         const data = await response.json()
         setPhoto(data.photo)
         setHasBeenViewed(true)
+        // Fotoğraf yüklendikten sonra geri sayımı başlat
+        setShowCountdown(true)
       } else if (response.status === 404) {
         setError('Fotoğraf bulunamadı veya zaten silinmiş.')
       } else if (response.status === 410) {
@@ -118,6 +147,8 @@ export default function PhotoPage() {
       setLoading(false)
     }
   }
+
+
 
   if (loading) {
     return (
@@ -187,30 +218,51 @@ export default function PhotoPage() {
               </div>
             </div>
             
-            <div className="p-6">
-              {photo.imageData ? (
-                <div className="text-center photo-container">
-                  <img
-                    src={`data:${photo.mimeType};base64,${photo.imageData}`}
-                    alt={photo.originalName}
-                    className="max-w-full h-auto mx-auto rounded-lg shadow-lg image-wrapper"
-                    style={{ maxHeight: '70vh' }}
-                    draggable="false"
-                    onContextMenu={(e) => e.preventDefault()}
-                  />
-                  <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
-                    Bu fotoğraf bir kez görüntülendi ve artık erişilemez.
-                  </p>
-                </div>
-              ) : (
-                <div className="text-center">
-                  <div className="text-6xl text-gray-400 mb-4">🖼️</div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Bu fotoğraf artık görüntülenemez çünkü bir kez erişildi.
-                  </p>
-                </div>
-              )}
-            </div>
+                         <div className="p-6">
+               {photo.imageData ? (
+                 <div className="text-center photo-container">
+                   <img
+                     src={`data:${photo.mimeType};base64,${photo.imageData}`}
+                     alt={photo.originalName}
+                     className="max-w-full h-auto mx-auto rounded-lg shadow-lg image-wrapper"
+                     style={{ maxHeight: '70vh' }}
+                     draggable="false"
+                     onContextMenu={(e) => e.preventDefault()}
+                   />
+                   
+                   {/* Geri Sayım Sayaç */}
+                   {showCountdown && (
+                     <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
+                       <div className="text-center">
+                         <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                           ⏰ {countdown} Saniye
+                         </div>
+                         <div className="w-full bg-blue-200 dark:bg-blue-700 rounded-full h-2">
+                           <div 
+                             className="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-linear"
+                             style={{ width: `${(countdown / 10) * 100}%` }}
+                           ></div>
+                         </div>
+                         <p className="text-blue-600 dark:text-blue-400 text-sm mt-2">
+                           Sayfa otomatik olarak kapanacak
+                         </p>
+                       </div>
+                     </div>
+                   )}
+                   
+                   <p className="text-gray-600 dark:text-gray-400 mt-4 text-sm">
+                     Bu fotoğraf bir kez görüntülendi ve artık erişilemez.
+                   </p>
+                 </div>
+               ) : (
+                 <div className="text-center">
+                   <div className="text-6xl text-gray-400 mb-4">🖼️</div>
+                   <p className="text-gray-400 dark:text-gray-400">
+                     Bu fotoğraf artık görüntülenemez çünkü bir kez erişildi.
+                   </p>
+                 </div>
+               )}
+             </div>
           </div>
           
           <div className="text-center mt-8">
