@@ -107,11 +107,24 @@ export default function PhotoPage() {
         setCountdown((prev) => {
           if (prev <= 1) {
             clearInterval(timer)
-            // 10 saniye sonra sayfayı kapat
+            // 5 saniye sonra sayfayı kapat
             setTimeout(() => {
+              // Birden fazla yöntem dene
               try {
-                window.close()
+                // Yöntem 1: window.close()
+                if (window.opener) {
+                  window.close()
+                } else {
+                  // Yöntem 2: History API ile geri git
+                  if (window.history.length > 1) {
+                    window.history.back()
+                  } else {
+                    // Yöntem 3: Ana sayfaya yönlendir
+                    window.location.href = '/'
+                  }
+                }
               } catch (e) {
+                // Yöntem 4: Fallback olarak ana sayfaya yönlendir
                 window.location.href = '/'
               }
             }, 1000)
@@ -233,10 +246,10 @@ export default function PhotoPage() {
                    {/* Geri Sayım Sayaç */}
                    {showCountdown && (
                      <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-lg">
-                       <div className="text-center">
-                         <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                           ⏰ {countdown} Saniye
-                         </div>
+                                                <div className="text-center">
+                           <div className="text-2xl font-bold text-blue-600 dark:text-blue-400 mb-2">
+                             ⏰ {countdown} Saniye
+                           </div>
                                                    <div className="w-full bg-blue-200 dark:bg-blue-700 rounded-full h-2">
                             <div 
                               className="bg-blue-600 h-2 rounded-full transition-all duration-1000 ease-linear"
@@ -246,6 +259,26 @@ export default function PhotoPage() {
                                                    <p className="text-blue-600 dark:text-blue-400 text-sm mt-2">
                             Sayfa 5 saniye sonra otomatik olarak kapanacak
                           </p>
+                           
+                           {/* Manuel Kapatma Butonu */}
+                           <button
+                             onClick={() => {
+                               try {
+                                 if (window.opener) {
+                                   window.close()
+                                 } else if (window.history.length > 1) {
+                                   window.history.back()
+                                 } else {
+                                   window.location.href = '/'
+                                 }
+                               } catch (e) {
+                                 window.location.href = '/'
+                               }
+                             }}
+                             className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition-colors"
+                           >
+                             🚪 Sayfayı Şimdi Kapat
+                           </button>
                        </div>
                      </div>
                    )}
@@ -268,6 +301,26 @@ export default function PhotoPage() {
                         <p className="text-gray-500 dark:text-gray-400 text-xs mt-2">
                           Saniye sonra sayfa kapanacak
                         </p>
+                        
+                        {/* Manuel Kapatma Butonu */}
+                        <button
+                          onClick={() => {
+                            try {
+                              if (window.opener) {
+                                window.close()
+                              } else if (window.history.length > 1) {
+                                window.history.back()
+                              } else {
+                                window.location.href = '/'
+                              }
+                            } catch (e) {
+                              window.location.href = '/'
+                            }
+                          }}
+                          className="mt-3 px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm font-medium rounded-lg transition-colors"
+                        >
+                          🚪 Sayfayı Şimdi Kapat
+                        </button>
                       </div>
                     </div>
                     
